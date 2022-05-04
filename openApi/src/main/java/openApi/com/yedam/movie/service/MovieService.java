@@ -21,6 +21,7 @@ public class MovieService {
 	public static List<MovieInfo> getDailyBoxOfficeResult() {
 		
 		String serviceURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"; //끝에 (json) ? 를 붙여야함
+		//서비스URL끝에는 항상 ?를 붙일것
 		//www.naver.com? 라고하면 ?뒤에는 정보를 주고 받는데 name = "홍길동" & "dept = "영업"
 		//											key=value					get방식
 		List<PropertiesPair> parms = new ArrayList<PropertiesPair>();
