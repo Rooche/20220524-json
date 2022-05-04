@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class BoxOfficeResult {
-	private BoxOfficeInfo boxofficeReslut;
+	private BoxOfficeInfo boxOfficeResult;
 }

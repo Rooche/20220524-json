@@ -4,23 +4,37 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
+import openApi.com.yedam.common.PropertiesPair;
+import openApi.com.yedam.movieVO.BoxOfficeResult;
 import openApi.com.yedam.movieVO.MovieInfo;
 
 public class MovieService {
+	
+	private static final String Key = "3fce77873a214a09b4c3eb559ee1cb22"; //발급된 키값
 
 	// 일별 박스 오피스
-	public List<MovieInfo> getDailyBoxOfficeResult() {
-		String serviceURL = " http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"; //끝에 (json) ? 를 붙여야함
+	public static List<MovieInfo> getDailyBoxOfficeResult() {
+		
+		String serviceURL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"; //끝에 (json) ? 를 붙여야함
 		//www.naver.com? 라고하면 ?뒤에는 정보를 주고 받는데 name = "홍길동" & "dept = "영업"
-		//												key=value					get방식
-		String paramURL = "";
+		//											key=value					get방식
+		List<PropertiesPair> parms = new ArrayList<PropertiesPair>();
+		parms.add(new PropertiesPair("key", Key));
+		parms.add(new PropertiesPair("targetDt", "20220429"));
+		
+		
 
-		String requestURL = serviceURL + paramURL;
+		
 		StringBuilder sb = new StringBuilder();
 		try {
-
+			String paramURL = PropertiesPair.getQuery(parms);
+			
+			String requestURL = serviceURL + paramURL;
 			URL url = new URL(requestURL);
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection(); //최상위 객체로 URL이 있고 그걸 다시 구현한게 HttpURL
@@ -44,5 +58,12 @@ public class MovieService {
 			e.printStackTrace();
 		}
 		String jsonResult = sb.toString();
+		
+	//	System.out.println(jsonResult);
+		BoxOfficeResult result = new Gson().fromJson(jsonResult, BoxOfficeResult.class);
+		
+		return result.getBoxOfficeResult().getDailyBoxOfficeList(); 
+	//	BoxOfficeInfo = result.getBoxofficeReslut();
+	//	List<MovieInfo> list = info.getDailyBoxOfficeList(); 
 	}
 }

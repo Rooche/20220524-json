@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class BoxOfficeInfo {
-	private String boxofficeType;
+	private String boxOfficeType;
 	private String showRange;
 	private List<MovieInfo> dailyBoxOfficeList;
 
